@@ -7,7 +7,3 @@ In this project, I will be demenstrating:
 	Debugging React applications, and
 	Dive deeper with react components and internal.
 	
-
-	
-	
-
