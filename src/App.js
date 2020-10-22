@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -63,6 +63,7 @@ class App extends Component {
 	
   render () {
 	let persons = null;
+	let btnClass = [classes.Button] // This will point to App.css module 
 	  
 	if (this.state.showPersons) {
 		persons = (			
@@ -79,29 +80,24 @@ class App extends Component {
 		</div>
 	  
 		);
-		//style.backgroundColor = 'red';
-		//style[':hover'] = {
-		  //backgroundColor: 'salmon',
-		  //color: 'black'
-		//}
-	
+		btnClass = classes.Red;
 	}
 	
-	const classes = [];
+	const assignedClasses = [];
 	// If persons array is less than 2. CSS class is already created in app.css
 	if (this.state.persons.length <= 2) {
-		classes.push('red'); // classes = ['red']
+		assignedClasses.push(classes.red); // classes = ['red']
 	}
 	if (this.state.persons.length <= 1) {
-		classes.push('bold'); // classes = ['red', 'bold']
+		assignedClasses.push(classes.bold); // classes = ['red', 'bold']
 	}
 	
 	 return (
-     <div className="App">
+     <div className={classes.App}>
 		<h1>Hi, I am a react app!</h1>
-		<p className={classes.join(' ')}>This is really working :D.</p>
-		<button className="button" alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
-		Toggle Names
+		<p className={assignedClasses.join(' ')}>This is really working :D.</p>
+		<button className={btnClass} alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
+		Toggle Person
 		</button>
 		{persons}
 	</div>

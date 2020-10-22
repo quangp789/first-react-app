@@ -10,7 +10,8 @@
 	font-weight: bold;
 }
 
-.button {
+/* Any button inside of App class should have these styles */
+.App Button {
 		background-Color: green;
 		color: white;
 		font: inherit;
@@ -19,7 +20,15 @@
 		cursor: pointer;
 }
 
-.button:hover {
+.App Button:hover {
   background-Color: lightgreen;
   color: black;
+}
+
+.App button.Red {
+	background-color: red;
+}
+
+.App button.Red:hover {
+	background-color: salmon;
 }
