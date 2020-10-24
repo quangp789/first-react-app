@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 	state = {
@@ -13,7 +14,7 @@ class App extends Component {
 		showPersons: false
 	}
 	
-	// React Hook: You can reuse "useState" to effectively change your "persons" state w/o affecting your "other" state. 
+	// React Hook: You can reuse "useState" to effectively change your "persons" state w/o affecting your "other" state.
 	//const [otherState, setOtherState] = useState('Some value');
 	
 	switchNameHandler = (newName) => {
@@ -71,11 +72,12 @@ class App extends Component {
 		<div>
 			{this.state.persons.map((person, index) => {
 			  // Return the person component
-			  return <Person name={person.name} 
+			  return <ErrorBoundary key={person.id}>
+			 		 <Person name={person.name} 
 					  age={person.age}
 					  click={() => this.deletePersonHandler(index)} 
-	  				  key={person.id} 
-	  				  changed={(event) => this.nameChangedHandler(event, person.id)}/>
+	  				  changed={(event) => this.nameChangedHandler(event, person.id)}/> 
+					 </ ErrorBoundary>
 			})}
 		</div>
 	  
