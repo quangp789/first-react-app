@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+
 
 class App extends Component {
+	constructor(props) {
+		super(props);
+		console.log('[App.js] constructor');
+	}
+	
 	state = {
 		persons: [
 			{id: 'uniqueID1', name: 'Max', age: 28 },
@@ -13,6 +19,11 @@ class App extends Component {
 		otherState: 'other value',
 		showPersons: false
 	}
+
+static getDerivedStateFromProps(props, state) {
+	console.log('[App.js] getDerivedStateFromProps', props);
+	return state;
+}
 	
 	// React Hook: You can reuse "useState" to effectively change your "persons" state w/o affecting your "other" state.
 	//const [otherState, setOtherState] = useState('Some value');
@@ -26,6 +37,10 @@ class App extends Component {
 			{ name: 'Billy', age: 27 }
 		  ]
 		})
+	}
+	
+	componentDidMount() {
+		console.log('[App.js] componentDidMount');
 	}
 	
 	nameChangedHandler = (event, id) => {
@@ -63,44 +78,24 @@ class App extends Component {
 	}
 	
   render () {
+	console.log(['App.js render']);
 	let persons = null;
-	let btnClass = [classes.Button] // This will point to App.css module 
 	  
 	if (this.state.showPersons) {
-		persons = (			
-		// Map will take persons array [line 7] and render it to the screen as a new array
-		<div>
-			{this.state.persons.map((person, index) => {
-			  // Return the person component
-			  return <ErrorBoundary key={person.id}>
-			 		 <Person name={person.name} 
-					  age={person.age}
-					  click={() => this.deletePersonHandler(index)} 
-	  				  changed={(event) => this.nameChangedHandler(event, person.id)}/> 
-					 </ ErrorBoundary>
-			})}
-		</div>
-	  
-		);
-		btnClass = classes.Red;
-	}
-	
-	const assignedClasses = [];
-	// If persons array is less than 2. CSS class is already created in app.css
-	if (this.state.persons.length <= 2) {
-		assignedClasses.push(classes.red); // classes = ['red']
-	}
-	if (this.state.persons.length <= 1) {
-		assignedClasses.push(classes.bold); // classes = ['red', 'bold']
+		persons = <Persons 
+				persons={this.state.persons}
+				clicked={this.deletePersonHandler}
+				changed={this.nameChangedHandler} />
+			;	
 	}
 	
 	 return (
      <div className={classes.App}>
-		<h1>Hi, I am a react app!</h1>
-		<p className={assignedClasses.join(' ')}>This is really working :D.</p>
-		<button className={btnClass} alt={this.state.showPersons} onClick={this.togglePersonsHandler}>
-		Toggle Person
-		</button>
+		<Cockpit 
+		   title={this.props.appTitle}
+		   showPersons={this.state.showPersons}
+		   persons={this.state.persons}  
+		   clicked={this.togglePersonsHandler} />
 		{persons}
 	</div>
     );
