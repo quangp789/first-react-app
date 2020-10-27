@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import Person from './Person/Person';
 
+
 // Props contain an array of persons
 class Persons extends PureComponent {
 //	shouldComponentUpdate(nextProps, nextState) {
@@ -35,7 +36,8 @@ class Persons extends PureComponent {
 			 age={person.age}
 			 key={person.id}
 			 click={() => this.props.clicked(index)} 
-	  		 changed={(event) => this.props.changed(event, person.id)} /> 
+	  		 changed={(event) => this.props.changed(event, person.id)}
+		/> 
 			);
 		});
 	}

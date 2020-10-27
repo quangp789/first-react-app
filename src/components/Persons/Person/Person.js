@@ -1,28 +1,53 @@
 import React, {Component, Fragment} from 'react';
 import classes from './Person.css';
-//import Auxiliary from '../../HOC/Auxiliary';
+import PropTypes from 'prop-types';
+import withClass from '../../HOC/withClass';
+import Auxiliary from '../../HOC/Auxiliary';
+import AuthContext from '../../../context/auth-context'
+
+
+
+
 
 class Person extends Component {
-	//static getDerivedStateFromProps(props, state) {
-		//console.log('[Persons.js] getDerivedStateFromProps');
-		//return state;
-	//}
+	constructor(props) {
+		super(props);
+		this.inputElementRef = React.createRef();
+	}
 	
-	componentWillReceiveProps(props) {
-		console.log('[Persons.js] componentWillReceiveProps', props);
+	static contextType = AuthContext;
+	
+	componentDidMount() {
+		//this.inputElement.focus();
+		this.inputElementRef.current.focus();
+		console.log(this.context.authenticated);
 	}
 
 	render() {
 	console.log('[Person.js] rendering...')
 	return (
-	<Fragment>
+	<Auxiliary>
+		{this.context.authenticated ? <p>Authenticated!</p> : <p> Please log in </p> }
 			<p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old.</p>
 			<p>{this.props.children}</p>
-			<input type="text" onChange={this.props.changed} value={this.props.name} />
-	</Fragment>
+			<input
+			//ref={(inputEl) => {this.inputElement = inputEl}}
+			ref={this.inputElementRef}
+			type="text" 
+			onChange={this.props.changed} 
+			value={this.props.name} />
+	</Auxiliary>
 		);
 	}
 }
 
+// When you click, you expect a pointer at a function
+Person.propTypes = {
+	click: PropTypes.func,
+	name: PropTypes.string,
+	age: PropTypes.number,
+	changed: PropTypes.func
+};
 
-export default Person;
+
+export default withClass(Person, classes.Person);
