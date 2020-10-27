@@ -1,7 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Cockpit.css';
 
 const cockpit = ( props ) => {
+	useEffect (() => {
+		console.log('[Cockpit.js] useEffect');
+		// Http Request...
+		const timer = setTimeout(() => {
+			alert('Saved data to cloud');
+		}, 1000);
+		return () => {
+			clearTimeout(timer);
+			console.log('[Cockpit.js] cleanup work in useEffect');	
+		};
+	}, []); // You can pass an empty array here
+	
+	useEffect (() => {
+		console.log('[Cockpit.js] 2nd userEffect');
+		return () => {
+			console.log('[Cockpit.js] cleanup work in 2nd useEffect');	
+		};
+	});
+	
 	const assignedClasses = [];
 	let btnClass = '';
 
@@ -11,10 +30,10 @@ const cockpit = ( props ) => {
 	}
 	
 	// If persons array is less than 2. CSS class is already created in app.css
-	if (props.persons.length <= 2) {
+	if (props.personsLength <= 2) {
 		assignedClasses.push(classes.red); // classes = ['red']
 	}
-	if (props.persons.length <= 1) {
+	if (props.personsLength <= 1) {
 		assignedClasses.push(classes.bold); // classes = ['red', 'bold']
 	}
 	
@@ -24,7 +43,6 @@ const cockpit = ( props ) => {
 			<p className={assignedClasses.join(' ')}>This is really working :D.</p>
 			<button 
 			className={btnClass} 
-			alt={props.showPersons} 
 			onClick={props.clicked}>
 			Toggle Person
 			</button>
@@ -32,4 +50,4 @@ const cockpit = ( props ) => {
 	);
 };
 
-export default cockpit;
+export default React.memo(cockpit);
